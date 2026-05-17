@@ -5,7 +5,7 @@ server:
 
 # Redis 配置
 redis:
-  host: "localhost"
+  host: "127.0.0.1"
   port: 6379
   password: "123456"
   db: 0
@@ -14,7 +14,7 @@ redis:
 mysql:
   # 如果你想直接使用完整 DSN，可以填这里；留空时会使用下面的 host/port/user/password/dbname 生成。
   dsn: ""
-  host: "localhost"
+  host: "127.0.0.1"
   port: 3306
   user: "game_app"
   password: "123456"
