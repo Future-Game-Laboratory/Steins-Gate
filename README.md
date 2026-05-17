@@ -1,14 +1,15 @@
 # 这里是《创世纪》项目组
 
-## Docker管理环境，后端使用GO+Redis+MongoDB
+## Docker管理环境，后端使用GO+Redis+MySQL
 
 
-## MongoDB数据库可视化管理工具
-### MongoDB Compass
-1. 下载安装
-   https://www.mongodb.com/products/compass
-2. 连接你的数据库
-   填入： mongodb://admin:123456@localhost:27017/
+## MySQL数据库连接
+默认 docker-compose 会创建：
+
+- 地址：localhost:3306
+- 数据库：game_db
+- 用户：game_app
+- 密码：123456
 
 
 ## Docker常用指令
@@ -27,5 +28,5 @@ docker-compose down
 ### 查看日志
 docker-compose logs -f  # 实时日志
 docker-compose logs redis  # 只看 Redis 日志
-docker-compose logs mongodb  # 只看 MongoDB 日志
+docker-compose logs mysql  # 只看 MySQL 日志
 

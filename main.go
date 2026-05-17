@@ -2,26 +2,26 @@ package main
 
 import (
 	"fmt"
-	"server/mongodb"
-	"server/redis"
-	"time"
+	"log"
 
-	"server/config"
-	"server/handle"
+	"github.com/Future-Game-Laboratory/Steins-Gate/mysql"
+	"github.com/Future-Game-Laboratory/Steins-Gate/redis"
+
+	"github.com/Future-Game-Laboratory/Steins-Gate/config"
+	"github.com/Future-Game-Laboratory/Steins-Gate/handle"
 
 	"github.com/gofiber/fiber/v3"
 )
 
-func test() {
-	mongodb.GetClient()
-	redis.GenerateToken("Apple", 100*time.Second)
-	redis.GenerateToken("Applsaddsasde", 100*time.Second)
-	redis.GenerateToken("Applsaddsas32423de", 100*time.Second)
-}
-
 func main() {
+	if err := mysql.Init(); err != nil {
+		log.Fatal(err)
+	}
+	defer mysql.Close()
 
-	test()
+	if err := redis.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// 创建 Fiber 应用
 	app := fiber.New()

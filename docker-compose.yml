@@ -1,4 +1,4 @@
-# 服务定义：Redis + MongoDB
+# 服务定义：Redis + MySQL
 services:
   # Redis 服务
   redis:
@@ -11,24 +11,30 @@ services:
     volumes:
       - ./redis/data:/data  # 数据持久化（宿主机目录:容器目录）
     networks:
-      - redis-mongo-network
+      - redis-mysql-network
 
-  # MongoDB 服务
-  mongodb:
-    image: mongo:6-jammy  # MongoDB 6 稳定版
-    container_name: mongodb-server
+  # MySQL 服务
+  mysql:
+    image: mysql:8.0  # MySQL 8.0 稳定版
+    container_name: mysql-server
     restart: always
     ports:
-      - "27017:27017"
+      - "3306:3306"  # 主机端口:容器端口
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin  # 管理员账号
-      MONGO_INITDB_ROOT_PASSWORD: 123456  # 管理员密码
+      MYSQL_ROOT_PASSWORD: 123456      # root 密码
+      MYSQL_DATABASE: game_db          # 自动创建的数据库（可选）
+      MYSQL_USER: game_app             # 普通用户（可选）
+      MYSQL_PASSWORD: 123456           # 普通用户密码（可选）
     volumes:
-      - ./mongodb/data:/data/db  # 数据持久化
+      - ./mysql/data:/var/lib/mysql    # 数据持久化
+      - ./mysql/conf:/etc/mysql/conf.d # 配置文件挂载（可选）
     networks:
-      - redis-mongo-network
+      - redis-mysql-network
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci  # 支持完整 UTF-8 和 Emoji
 
-# 自定义网络（两个服务可以互相通信）
+# 网络定义（名称可自定义）
 networks:
-  redis-mongo-network:
+  redis-mysql-network:
     driver: bridge
